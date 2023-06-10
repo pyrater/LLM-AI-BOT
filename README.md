@@ -19,7 +19,7 @@ The motivation behind this project was the lack of open-source alternatives for 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/project-name.git
+git clone https://github.com/pyrater/LLM-AI-BOT
 ```
 2. Edit the execute.php file 
 ```
