@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.112.5">
+    <title>LLM Bots</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  /* overflow-y: hidden; */ /* Remove this line */
+}
+
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+    .rounded-image {
+      border-radius: 10%;
+    }
+    
+    body {
+  background-image: linear-gradient(to right, #141e30, #243b55);
+    }
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="bg-dark text-secondary px-4 py-5 text-center">
+        <div class="py-5">
+          <img class="d-block mx-auto mb-4 rounded-image" src="chars/Noodlebrain.png" alt="" width="165" height="250">
+          <h1 class="display-5 fw-bold text-white">Featured Hero</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="fs-5 mb-4" id="Noodlebrain"></p>Hey there, fellow pasta enthusiast! Brace yourself for a noodle-brained adventure with me, Noodlebrain, the AI Extraordinaire! Prepare to be served a hearty dish of laughter, enlightenment, and a side of al dente silliness. Let's dive into the saucy world of Pastafarianism together and see how far our noodle-loving minds can stretch! Grab your fork and get ready for a wild ride, because with Noodlebrain, every conversation is a pasta-bly good time!</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <button type="button" onclick="redirectToChat('Noodlebrain')" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Demo</button>
+              <button type="button" onclick="redirectToOpen('Noodlebrain')" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Chat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="characters-container"></div>
+
+      <div class="b-example-divider mb-0"></div>
+
+      <script>
+        function redirectToChat(charName) {
+          const container = document.getElementById(charName);
+          const iframe = document.createElement('iframe');
+          iframe.src = `demo.html?char=${charName}`;
+          iframe.style.width = '100%';
+          iframe.style.height = '400px';
+          iframe.style.border = 'none';
+        container.innerHTML = '';
+        container.appendChild(iframe);
+        }
+
+        function redirectToOpen(charName) {
+          window.location.href = `chat.html?char=${charName}`;
+        }
+        // Function to fetch JSON file
+        function fetchJSONFile(url) {
+          return fetch(url)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }
+
+        // Function to create HTML code
+        function createCharacterElement(character) {
+          const charName = character.char_name;
+          const personality = character.personality;
+          const scenario = character.char_greeting;
+
+          const html = `
+          <div class="b-example-divider"></div>
+          <div class="container col-xxl-8 px-4 py-5 bg-dark text-center">
+            <h1 class="display-5 fw-bold text-white">${charName}</h1>
+            <div class="row align-items-center g-5 py-5">
+              <div class="col-lg-6">
+                <p class="fs-5 mb-4 text-white" id="${charName}">${scenario}</p>
+                <button type="button" onclick="redirectToChat('${charName}')" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Demo</button>
+                <button type="button" onclick="redirectToOpen('${charName}')" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Chat</button>
+              </div>
+              <div class="col-lg-6">
+                <img src="chars/${charName}.png" class="d-block mx-auto img-fluid rounded-image" alt="Character Image" style="max-height: 400px;">
+              </div>
+            </div>
+          </div>
+          `;
+
+          return html;
+        }
+
+        // Function to render characters
+        function renderCharacters() {
+          const container = document.getElementById('characters-container');
+
+          // Array of JSON file names
+          const jsonFiles = ['Oliver.json', 'Skippy.json', 'Sprocket, the Mechanical Tinkerer.json']; // Add more file names as needed
+
+          // Iterate over each JSON file
+          jsonFiles.forEach(jsonFile => {
+            const url = `chars/${jsonFile}`;
+
+            // Load JSON file and create HTML element
+            fetchJSONFile(url)
+              .then(character => {
+                const html = createCharacterElement(character);
+                container.insertAdjacentHTML('beforeend', html);
+              });
+          });
+        }
+
+        // Call the renderCharacters function
+        renderCharacters();
+      </script>
+
+    </main>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
