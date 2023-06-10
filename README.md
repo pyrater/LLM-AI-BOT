@@ -20,3 +20,11 @@ The motivation behind this project was the lack of open-source alternatives for 
 
 ```bash
 git clone https://github.com/your-username/project-name.git
+```
+2. Edit the execute.php file 
+```
+$host = '192.168.2.137';
+$port = 5000;
+$uri = "http://$host:$port/api/v1/generate";
+```
+Upload to webhost and make api connection to oobabooga.
