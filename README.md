@@ -1,4 +1,4 @@
-# Project Name
+# LLM Bots
 
 Project Name is an open-source project that aims to provide a solution for LLM (Language Model) processing. It utilizes HTML, JavaScript as a front-end, and a PHP backend to make API calls to Oobabooga.
 
